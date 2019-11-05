@@ -3,6 +3,7 @@
 import numpy as np
 import cv2
 
+#def read_img():
 img = cv2.imread('snoopy_cut.png') 
 shape = img.shape
 point_array = np.zeros(shape)
