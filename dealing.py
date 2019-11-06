@@ -59,7 +59,33 @@ class dealing():
                                         """
                         count += 1
         self.painted_array = painted_array
+        self.new_array = new_array
         return (new_array, painted_array, count)
 
-    def simply(self):
-        pass
+    def simply(self, new_array):
+        for x in range(0, self.shape[0]):
+            for y in range(0, self.shape[1]):
+                tmp_center = self.new_array[x, y, 0]
+                if (tmp_center == 0):
+                    pass
+                else:
+                    for w in range(-1, 1):
+                        for h in range(-1, 1):
+                            if (self.new_array[x+w, y+h, 0] == 0):
+                                pass
+                            else:
+                                tmp_neighbor = self.new_array[x+w, y+h, 0]
+                                if (tmp_neighbor > tmp_center):
+                                    self.new_array[x+w, y+h, 0] = tmp_center
+                                else:
+                                    pass
+        return (self.new_array)
+
+    def showresult(self, array):
+        tmp_list = []
+        for x in range(0, self.shape[0]):
+            for y in range(0, self.shape[1]):
+                if (array[x, y, 0] != 0 and array[x, y, 0] not in tmp_list):
+                    tmp_list.append(array[x, y, 0])
+        return (tmp_list)
+                        

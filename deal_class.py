@@ -45,7 +45,10 @@ def main():
     deal = dealing(point_array)
     sequence, painted, times = deal.ifline()[0], deal.ifline()[1], deal.ifline()[2]
     print ("times: ", times)
-    simulation = simulate(sequence, times)
+    simply_sequence = deal.simply(sequence)
+    simply_times = deal.showresult(simply_sequence)
+    print ("times list after simply: ", len(simply_times))
+    simulation = simulate(simply_sequence, times)
     simulation.simulatesequence()
 
 if __name__ == "__main__":
