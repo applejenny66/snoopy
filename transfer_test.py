@@ -11,6 +11,7 @@ def readimg(name):
 
 def grayimg(img, name):
     img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    name = "./test/" + name
     cv2.imwrite(name, img_gray)
     return (img_gray)
 
@@ -23,13 +24,13 @@ def showdistribution(img):
 def blurredimg(img, kernel_size=10):    
     kernel = np.ones((kernel_size,kernel_size),np.float32)/(kernel_size*kernel_size)
     dst = cv2.filter2D(img,-1,kernel)
-    cv2.imwrite('blurred.png', dst)
+    cv2.imwrite('./test/blurred.png', dst)
     #cv2.imshow('dst', dst)
     return (dst)
 
 def threshold(img, x1, x2):
     ret2, thresh = cv2.threshold(img,x1,x2,0) #127
-    cv2.imwrite("thrshold.png", thresh)
+    cv2.imwrite("./test/thrshold.png", thresh)
     return (ret2, thresh)
 
 def kmeans(img, K = 3):
@@ -46,26 +47,31 @@ def kmeans(img, K = 3):
 def drawContours(draw_img, thresh_img):
     contours, hierarchy = cv2.findContours(thresh_img,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     img_contour = cv2.drawContours(draw_img, contours, -1, (0,255,0), 3)
-    cv2.imwrite('contour.png', img_contour)
+    cv2.imwrite('./test/contour.png', img_contour)
     #cv2.imshow('contour',img_contour)
     return (img_contour)
 
 def main():
     img = readimg('pikachu.jpg')
+    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    blurred_hsv_img = blurredimg(hsv_img, 15)
+    gray_hsv_img = cv2.cvtColor(blurred_hsv_img, cv2.COLOR_BGR2GRAY)
+    cv2.imwrite("./test/gray_hsv_img.png", gray_hsv_img)
+    ret2, thresh = threshold(gray_hsv_img,140,255)
+    hsv_img_contour = drawContours(img, thresh)
+    cv2.imwrite('./test/contour_hsv.png', hsv_img_contour)
+    """
     img_gray = grayimg(img, 'img_gray.png')
     showdistribution(img_gray)
     blurred_img = blurredimg(img, 20)
-    k10_img = kmeans(blurred_img, K = 10)
     k3_img = kmeans(blurred_img, K = 3)
-    k10_gray_img = grayimg(k10_img, 'k10_img.png')
     k3_gray_img = grayimg(k3_img, 'k3_img.png')
     blurred_gray_img = cv2.cvtColor(blurred_img, cv2.COLOR_BGR2GRAY)
     #ret2, thresh = threshold(blurred_gray_img,150,255) #127
     ret2, thresh = threshold(k3_gray_img,140,255)
     img3_contour = drawContours(k3_img, thresh)
-    cv2.imwrite('contour3.png', img3_contour)
-    img10_contour = drawContours(k10_img, thresh)
-    cv2.imwrite('contour10.png', img10_contour)
+    cv2.imwrite('./test/contour3.png', img3_contour)
+    """
     
     
 
