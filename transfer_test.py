@@ -54,13 +54,19 @@ def main():
     img = readimg('pikachu.jpg')
     img_gray = grayimg(img, 'img_gray.png')
     showdistribution(img_gray)
-    blurred_img = blurredimg(img, 10)
-    k_img = kmeans(blurred_img, K = 3)
-    k_gray_img = grayimg(k_img, 'k_img.png')
+    blurred_img = blurredimg(img, 20)
+    k10_img = kmeans(blurred_img, K = 10)
+    k3_img = kmeans(blurred_img, K = 3)
+    k10_gray_img = grayimg(k10_img, 'k10_img.png')
+    k3_gray_img = grayimg(k3_img, 'k3_img.png')
     blurred_gray_img = cv2.cvtColor(blurred_img, cv2.COLOR_BGR2GRAY)
     #ret2, thresh = threshold(blurred_gray_img,150,255) #127
-    ret2, thresh = threshold(k_gray_img,140,255)
-    img_contour = drawContours(k_img, thresh)
+    ret2, thresh = threshold(k3_gray_img,140,255)
+    img3_contour = drawContours(k3_img, thresh)
+    cv2.imwrite('contour3.png', img3_contour)
+    img10_contour = drawContours(k10_img, thresh)
+    cv2.imwrite('contour10.png', img10_contour)
+    
     
 
 
