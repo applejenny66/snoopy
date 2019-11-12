@@ -53,12 +53,12 @@ def drawContours(draw_img, thresh_img):
 
 def main():
     img = readimg('pikachu.jpg')
-    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsv_img = cv2.cvtColor(img.copy(), cv2.COLOR_BGR2HSV)
     blurred_hsv_img = blurredimg(hsv_img, 15)
     gray_hsv_img = cv2.cvtColor(blurred_hsv_img, cv2.COLOR_BGR2GRAY)
     cv2.imwrite("./test/gray_hsv_img.png", gray_hsv_img)
     ret2, thresh = threshold(gray_hsv_img,140,255)
-    hsv_img_contour = drawContours(img, thresh)
+    hsv_img_contour = drawContours(img.copy(), thresh)
     cv2.imwrite('./test/contour_hsv.png', hsv_img_contour)
     """
     img_gray = grayimg(img, 'img_gray.png')
