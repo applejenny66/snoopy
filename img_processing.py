@@ -2,7 +2,7 @@
 
 import numpy as np
 import cv2
-
+from transfer_test import kmeans
 def background_no(img):
     shape = img.shape
     ret,thresh = cv2.threshold(cv2.cvtColor(img,cv2.COLOR_BGR2GRAY),127,255,0)
@@ -97,6 +97,7 @@ def downsample(img):
     print (new_width, new_height)
     new_img = cv2.resize(img, (new_height, new_width), interpolation = cv2.INTER_AREA)
     cv2.imwrite("./test/resized.png", new_img)
+    return (new_img)
 
 if __name__ == "__main__":
     #img = cv2.imread("./test/blurred.png")
@@ -109,4 +110,7 @@ if __name__ == "__main__":
     cv2.imwrite("./test/origin_crop.png", origin_crop_img)
     drawboundingbox(img, max_x, max_y, min_x, min_y)
     #downsample(crop_img)
-    downsample(origin_crop_img)
+    resized_img = downsample(origin_crop_img)
+    k = 5
+    k_img = kmeans(resized_img, K=k)
+    cv2.imwrite("./test/k_resized.png", k_img)
