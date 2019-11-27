@@ -5,6 +5,8 @@ import cv2
 #import cv
 from transfer_test import kmeans
 import matplotlib.pyplot as plt
+from crawl_color import color_table
+from color_transfer import classify_table
 
 def background_no(img):
     shape = img.shape
@@ -169,30 +171,105 @@ def colorclassify3(dist_list, total_color_list):
         total_color_list.remove(total_color_list[indx])
     return (total_color_list)
 
+def compare_color(img, bl_table, r_table, g_table, b_table):
+    new_img = img.copy()
+    print (new_img[10, 10])
+    shape = img.shape
+    bl_len = len(bl_table)
+    r_len = len(r_table)
+    g_len = len(g_table)
+    b_len = len(b_table)
+    for x in range(0, shape[0]):
+        for y in range(0, shape[1]):
+            tmp_color = (img[x, y, 2], img[x, y, 1], img[x, y, 0]) #(b, g, r)
+            if (tmp_color[0] == tmp_color[1] == tmp_color[2]):
+                dev_list = []
+                for i in range(0, bl_len):
+                    dev = 0
+                    for p in range(0, 3):
+                        dev += (abs(tmp_color[p] - bl_table[i][p])*abs(tmp_color[p] - bl_table[i][p]))
+                    dev_list.append(dev)
+                dev_min = min(dev_list)
+                dev_index = dev_list.index(dev_min)
+                new_color = (bl_table[dev_index][0], bl_table[dev_index][1], bl_table[dev_index][2])
+            
+            else:
+                tmp_max = max(tmp_color)
+                tmp_index = int(tmp_color.index(tmp_max))
+                #print ("tmp index: ", tmp_index)
+                if (tmp_index == 0): #b
+                    dev_list = []
+                    for i in range(0, b_len):
+                        dev = 0
+                        for p in range(0, 3):
+                            dev += (abs(tmp_color[p] - b_table[i][p])*abs(tmp_color[p] - b_table[i][p]))
+                        dev_list.append(dev)
+                    dev_min = min(dev_list)
+                    dev_index = dev_list.index(dev_min)
+                    new_color = (b_table[dev_index][0], b_table[dev_index][1], b_table[dev_index][2])
+                    #print ("dev list: ", dev_list)
+                elif (tmp_index == 1): #g
+                    dev_list = []
+                    for i in range(0, g_len):
+                        dev = 0
+                        for p in range(0, 3):
+                            dev += (abs(tmp_color[p] - g_table[i][p])*abs(tmp_color[p] - g_table[i][p]))
+                        dev_list.append(dev)
+                    dev_min = min(dev_list)
+                    dev_index = dev_list.index(dev_min)
+                    new_color = (g_table[dev_index][0], g_table[dev_index][1], g_table[dev_index][2])
+                else:
+                    dev_list = []
+                    for i in range(0, r_len):
+                        dev = 0
+                        for p in range(0, 3):
+                            dev += (abs(tmp_color[p] - r_table[i][p])*abs(tmp_color[p] - r_table[i][p]))
+                        dev_list.append(dev)
+                    dev_min = min(dev_list)
+                    dev_index = dev_list.index(dev_min)
+                    new_color = (r_table[dev_index][2], r_table[dev_index][1], r_table[dev_index][0])
+                new_img[x, y, 0], new_img[x, y, 1], new_img[x, y, 2] = new_color[0], new_color[1], new_color[2]
+
+    save_name = "./test/test.png"
+    cv2.imwrite(save_name, new_img)
 
 
 
 
 if __name__ == "__main__":
     img = cv2.imread("./test/resized.png")
+    
     object_img = background_no(img)
     bgr_img1 = cv2.cvtColor(object_img, cv2.COLOR_HSV2BGR)
     cv2.imwrite("./test/bgr_object.png", bgr_img1)
+    #cv2.imshow("1", bgr_img1)
+    #cv2.waitKey()
+    #cv2.destroyAllWindows()
+    
+    """
     total_k, r_list, g_list, b_list, color_list = totalcolor(object_img)
     #for i in range(0, 10):
     #    print (color_list[i])
     #print ("color list: ", color_list[0])
     total_color_list = colorclassify1(color_list)
     dist_list = colorclassify2(total_color_list)
-    for i in range(0, 10):
-        print ("dist list : ", dist_list[i])
-    plotdist(dist_list)
+    #for i in range(0, 10):
+    #    print ("dist list : ", dist_list[i])
+    #plotdist(dist_list)
     simple_total_color_list = colorclassify3(dist_list, total_color_list)
     print ("length of simple color: ", len(simple_total_color_list))
     k = len(simple_total_color_list)
     k_img = kmeans(object_img, K = k)
     bgr_img2 = cv2.cvtColor(k_img, cv2.COLOR_HSV2BGR)
     cv2.imwrite("./test/k_resized.png", bgr_img2)
+    """
+    np_color_table = color_table()
+    table_size = np_color_table.shape
+    #print (size)
+    #(239, 3)
+    black_table, r_table, g_table, b_table = classify_table(np_color_table)
+    #shape = bgr_img2.shape
+    compare_color(bgr_img1, black_table, r_table, g_table, b_table)
     #for i in range(0, 10):
     #    print (total_color_List[i])
     #k_decided = int(total_k / 100)
