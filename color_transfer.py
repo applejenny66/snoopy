@@ -14,12 +14,13 @@ def classify_table(color_table):
     black_table = []
     for i in range(0, shape[0]):
         tmp_list = []
-        tmp_r = color_table[i, 0]
-        tmp_g = color_table[i, 1]
-        tmp_b = color_table[i, 2]
+        tmp_r = color_table[i, 0, 0]
+        tmp_g = color_table[i, 1, 0]
+        tmp_b = color_table[i, 2, 0]
         tmp_list.append(tmp_r)
         tmp_list.append(tmp_g)
         tmp_list.append(tmp_b)
+        #print ("tmp list: ", tmp_list)
         if (tmp_list[0] == tmp_list[1] == tmp_list[2]):
             black_table.append(i)
         else:
@@ -44,14 +45,14 @@ def classify_table(color_table):
     g_table = np.zeros((g_len), dtype=dtype)
     b_table = np.zeros((b_len), dtype=dtype)
     for i in range(0, black_len):
-        bl_table[i] = color_table[black_table[i], 0], color_table[black_table[i], 1], color_table[black_table[i], 2]
+        bl_table[i] = color_table[black_table[i], 0, 0], color_table[black_table[i], 1, 0], color_table[black_table[i], 2, 0]
 
     for i in range(0, r_len):
-        r_table[i] = color_table[red_table[i], 0], color_table[red_table[i], 1], color_table[red_table[i], 2]
+        r_table[i] = color_table[red_table[i], 0, 0], color_table[red_table[i], 1, 0], color_table[red_table[i], 2, 0]
     for i in range(0, g_len):
-        g_table[i] = color_table[green_table[i], 0], color_table[green_table[i], 1], color_table[green_table[i], 2]
+        g_table[i] = color_table[green_table[i], 0, 0], color_table[green_table[i], 1, 0], color_table[green_table[i], 2, 0]
     for i in range(0, b_len):
-        b_table[i] = color_table[blue_table[i], 0], color_table[blue_table[i], 1], color_table[blue_table[i], 2]
+        b_table[i] = color_table[blue_table[i], 0, 0], color_table[blue_table[i], 1, 0], color_table[blue_table[i], 2, 0]
     bl_table = np.sort(bl_table, order = 'R')
     r_table = np.sort(r_table, order = 'R')
     g_table = np.sort(g_table, order = 'G')

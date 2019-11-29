@@ -1,7 +1,7 @@
 # crawl_color.py
 
 #! /usr/bin/env python
-
+import cv2
 try:
     # For Python 3.0 and later
     from urllib.request import urlopen
@@ -21,6 +21,8 @@ def color_table():
     np_table = useful_table.to_numpy()
     #print (type(np_table))
     #print (np_table)
+    #print (np_table.shape)
+    cv2.imwrite("color_table.png", np_table)
     return (np_table)
 
 if __name__ == "__main__":

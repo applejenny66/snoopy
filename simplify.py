@@ -35,9 +35,9 @@ def background_no(img):
         #approx = cv2.approxPolyDP(cnt,epsilon,True)
         #imgnew1 = cv2.drawContours(img, approx, -1, (0,0,255), 3)
 
-    print ("center list:", center_list)
-    print ("area list: ", area_list)
-    print ("perimeter list: ", perimeter_list)
+    #print ("center list:", center_list)
+    #print ("area list: ", area_list)
+    #print ("perimeter list: ", perimeter_list)
     max_area = max(area_list)
     max_index = area_list.index(max_area)
     #epsilon = 0.02 * (perimeter_list[max_index])s
@@ -88,9 +88,9 @@ def totalcolor(img):
                         g_list.append(tmp_g)
                         b_list.append(tmp_b)
                         color_list.append(tmp_color)
-    print ("color list [0]: ", color_list[0])
+    #print ("color list [0]: ", color_list[0])
     total_k = len(color_list)
-    print ("total color: ", len(color_list))
+    #print ("total color: ", len(color_list))
     return (total_k, r_list, g_list, b_list, color_list)
 
 def takefourth(elem):
@@ -173,7 +173,7 @@ def colorclassify3(dist_list, total_color_list):
 
 def compare_color(img, bl_table, r_table, g_table, b_table):
     new_img = img.copy()
-    print (new_img[10, 10])
+    #print (new_img[10, 10])
     shape = img.shape
     bl_len = len(bl_table)
     r_len = len(r_table)
@@ -182,6 +182,7 @@ def compare_color(img, bl_table, r_table, g_table, b_table):
     for x in range(0, shape[0]):
         for y in range(0, shape[1]):
             tmp_color = (img[x, y, 2], img[x, y, 1], img[x, y, 0]) #(b, g, r)
+            #print (tmp_color)
             if (tmp_color[0] == tmp_color[1] == tmp_color[2]):
                 dev_list = []
                 for i in range(0, bl_len):
@@ -197,7 +198,7 @@ def compare_color(img, bl_table, r_table, g_table, b_table):
                 tmp_max = max(tmp_color)
                 tmp_index = int(tmp_color.index(tmp_max))
                 #print ("tmp index: ", tmp_index)
-                if (tmp_index == 0): #b
+                if (tmp_index == 2): #b
                     dev_list = []
                     for i in range(0, b_len):
                         dev = 0
@@ -263,7 +264,8 @@ if __name__ == "__main__":
     bgr_img2 = cv2.cvtColor(k_img, cv2.COLOR_HSV2BGR)
     cv2.imwrite("./test/k_resized.png", bgr_img2)
     """
-    np_color_table = color_table()
+    np_color_table = cv2.imread("color_table.png")
+    #np_color_table = color_table()
     table_size = np_color_table.shape
     #print (size)
     #(239, 3)
