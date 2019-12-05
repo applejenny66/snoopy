@@ -7,11 +7,12 @@ from transfer_test import kmeans
 import matplotlib.pyplot as plt
 from crawl_color import color_table
 from color_transfer import classify_table
+from gen_point import img_2_paint
 
 def background_no(img):
     shape = img.shape
     ret,thresh = cv2.threshold(cv2.cvtColor(img,cv2.COLOR_BGR2GRAY),127,255,0)
-    contours,hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)#得到轮廓信息
+    contours,hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
     area_list = []
     perimeter_list = []
     center_list = []
@@ -30,7 +31,6 @@ def background_no(img):
         perimeter = cv2.arcLength(cnt,True)
         perimeter_list.append(perimeter)
 
-        #轮廓的近似
         #epsilon = 0.02*perimeter
         #approx = cv2.approxPolyDP(cnt,epsilon,True)
         #imgnew1 = cv2.drawContours(img, approx, -1, (0,0,255), 3)
@@ -43,7 +43,7 @@ def background_no(img):
     #epsilon = 0.02 * (perimeter_list[max_index])s
     #approx = cv2.approxPolyDP(contours[max_index],epsilon,True)
     #object_img = cv2.drawContours(img, approx, -1, (0,0,255), 3)
-    object_img = cv2.drawContours(img, contours[max_index], -1, (0,255,0), 3)#把所有轮廓画出来
+    object_img = cv2.drawContours(img, contours[max_index], -1, (0,255,0), 3)
 
     for x in range(0, shape[0]):
         for y in range(0, shape[1]):
@@ -243,6 +243,7 @@ if __name__ == "__main__":
     object_img = background_no(img)
     bgr_img1 = cv2.cvtColor(object_img, cv2.COLOR_HSV2BGR)
     cv2.imwrite("./test/bgr_object.png", bgr_img1)
+    painting_img = img_2_paint("./test/bgr_object.png")
     #cv2.imshow("1", bgr_img1)
     #cv2.waitKey()
     #cv2.destroyAllWindows()
@@ -271,7 +272,7 @@ if __name__ == "__main__":
     #(239, 3)
     black_table, r_table, g_table, b_table = classify_table(np_color_table)
     #shape = bgr_img2.shape
-    compare_color(bgr_img1, black_table, r_table, g_table, b_table)
+    compare_color(painting_img, black_table, r_table, g_table, b_table)
     #for i in range(0, 10):
     #    print (total_color_List[i])
     #k_decided = int(total_k / 100)

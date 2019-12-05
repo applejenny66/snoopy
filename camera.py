@@ -13,9 +13,9 @@ class colorcheck():
 
     def checkcamera(self):
         try:
-            cap = cv2.VideoCapture(0)
-        except:
             cap = cv2.VideoCapture(1)
+        except:
+            cap = cv2.VideoCapture(0)
         ret, frame = cap.read()
         self.shape = frame.shape
         self.cap = cap
