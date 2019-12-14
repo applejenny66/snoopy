@@ -106,6 +106,63 @@ def compare_color(img, bl_table, r_table, g_table, b_table):
 def paint_2_csv(img):
     img = cv2.imread(img)
     shape = img.shape
+    color_r = []
+    color_g = []
+    color_b = []
+    total_color = []
+    for x in range(0, shape[0]):
+        for y in range(0, shape[1]):
+            tmp_list = []
+            tmp_total = 0
+            tmp_color = img[x, y]
+            tmp_r = int(tmp_color[0])
+            tmp_g = int(tmp_color[1])
+            tmp_b = int(tmp_color[2])
+            tmp_total = tmp_r + tmp_g + tmp_b
+            tmp_list.append(tmp_r)
+            tmp_list.append(tmp_g)
+            tmp_list.append(tmp_b)
+            tmp_list.append(tmp_total)
+            if (tmp_r not in color_r):
+                color_r.append(tmp_r)
+                color_g.append(tmp_g)
+                color_b.append(tmp_b)
+                total_color.append(tmp_list)
+            else:
+                if (tmp_g not in color_g):
+                    color_r.append(tmp_r)
+                    color_g.append(tmp_g)
+                    color_b.append(tmp_b)
+                    total_color.append(tmp_list)
+                else:
+                    if (tmp_b not in color_b):
+                        color_r.append(tmp_r)
+                        color_g.append(tmp_g)
+                        color_b.append(tmp_b)
+                        total_color.append(tmp_list)
+                    else:
+                        index_r = int(color_r.index(tmp_r))
+                        index_g = int(color_g.index(tmp_g))
+                        index_b = int(color_b.index(tmp_b))
+                        if (index_r == index_g == index_b):
+                            pass
+                        else:
+                            #if (color_r[index_r] == color_g[index_g]):
+                            #    if ()
+                            #    (color_r[index_r] == color_g[index_b]) or \
+                            #    (color_r[index_b] == color_g[index_g])):
+
+                            color_r.append(tmp_r)
+                            color_g.append(tmp_g)
+                            color_b.append(tmp_b)
+                            total_color.append(tmp_list)
+    total_number = len(color_r)
+    print ("total color number: ", total_number)
+    print ("first color: ", total_color[1])
+
+
+
+    """
     path = "./painting"
     try:
         shutil.rmtree(path)
@@ -118,13 +175,13 @@ def paint_2_csv(img):
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerow(['Spam'] * 5 + ['Baked Beans'])
         writer.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])           
-
+    """
 if __name__ == "__main__":
-    np_color_table = color_table()
-    size = np_color_table.shape
-    bl_table, r_table, g_table, b_table = classify_table(np_color_table)
+    #np_color_table = color_table()
+    #size = np_color_table.shape
+    #bl_table, r_table, g_table, b_table = classify_table(np_color_table)
 
-    new_img = img_2_paint("./test/bgr_object.png")
-    compare_color(new_img, bl_table, r_table, g_table, b_table)
+    #new_img = img_2_paint("./test/bgr_object.png")
+    #compare_color(new_img, bl_table, r_table, g_table, b_table)
 
-    #paint_2_csv("./test/painting.png")
+    paint_2_csv("./test/painting.png")
