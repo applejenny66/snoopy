@@ -103,9 +103,13 @@ def compare_color(img, bl_table, r_table, g_table, b_table):
     save_name = "./test/final.png"
     cv2.imwrite(save_name, new_img)
 
+def takeFour(elem):
+    return elem[3]
+
 def paint_2_csv(img):
     img = cv2.imread(img)
     shape = img.shape
+    print ("painting shape: ", shape)
     color_r = []
     color_g = []
     color_b = []
@@ -147,28 +151,63 @@ def paint_2_csv(img):
                         if (index_r == index_g == index_b):
                             pass
                         else:
-                            #if (color_r[index_r] == color_g[index_g]):
+                            if ((color_r[index_r] == tmp_r) and (color_g[index_r] == tmp_g) \
+                                and (color_b[index_r] == tmp_b)):
+                                pass
+                            elif ((color_r[index_g] == tmp_r) and (color_g[index_g] == tmp_g) \
+                                and (color_b[index_g] == tmp_b)):
+                                pass
+                            elif ((color_r[index_b] == tmp_r) and (color_g[index_b] == tmp_g) \
+                                and (color_b[index_b] == tmp_b)):
+                                pass
+                            else:
+                                color_r.append(tmp_r)
+                                color_g.append(tmp_g)
+                                color_b.append(tmp_b)
+                                total_color.append(tmp_list)
+                            
                             #    if ()
                             #    (color_r[index_r] == color_g[index_b]) or \
                             #    (color_r[index_b] == color_g[index_g])):
 
-                            color_r.append(tmp_r)
-                            color_g.append(tmp_g)
-                            color_b.append(tmp_b)
-                            total_color.append(tmp_list)
+                            #color_r.append(tmp_r)
+                            #color_g.append(tmp_g)
+                            #color_b.append(tmp_b)
+                            #total_color.append(tmp_list)
     total_number = len(color_r)
+    total_color.sort(key=takeFour)
+    
     print ("total color number: ", total_number)
     print ("first color: ", total_color[1])
+    print ("second color: ", total_color[2])
 
 
 
-    """
+    
     path = "./painting"
     try:
-        shutil.rmtree(path)
+        if os.path.exists('./painting'):
+            shutil.rmtree(path)
         os.mkdir(path)
     except:
         print ("dir exist")
+    
+    for i in range(0, total_number):
+        name = path + "/" + str(i) + ".csv"
+        color_r = total_color[i][0]
+        color_g = total_color[i][1]
+        color_b = total_color[i][2]
+        with open(name, 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',')
+            writer.writerow([color_r, color_g, color_b])
+            for x in range(0, shape[0]):
+                for y in range(0, shape[1]):
+                    if ((img[x, y, 0] == color_r) and (img[x, y, 1] == color_g) and \
+                        (img[x, y, 2] == color_b)):
+                        writer.writerow([x, y])
+
+    
+    """
     name = "painting1.csv"
     # name = path + "painting1.csv"
     with open(name, 'w') as csvfile:
@@ -177,11 +216,11 @@ def paint_2_csv(img):
         writer.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])           
     """
 if __name__ == "__main__":
-    #np_color_table = color_table()
-    #size = np_color_table.shape
-    #bl_table, r_table, g_table, b_table = classify_table(np_color_table)
+    np_color_table = color_table()
+    size = np_color_table.shape
+    bl_table, r_table, g_table, b_table = classify_table(np_color_table)
 
-    #new_img = img_2_paint("./test/bgr_object.png")
-    #compare_color(new_img, bl_table, r_table, g_table, b_table)
+    new_img = img_2_paint("./test/bgr_object.png")
+    compare_color(new_img, bl_table, r_table, g_table, b_table)
 
-    paint_2_csv("./test/painting.png")
+    paint_2_csv("./test/final.png")
