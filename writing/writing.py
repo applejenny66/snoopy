@@ -8,7 +8,7 @@ import numpy as np
 #cv2.destroyAllWindows()
 
 def findwords():
-    name = "cloud.png"
+    name = "clouds_thund.png"
     img = cv2.imread(name)
     shape = img.shape
     print (img.shape)
