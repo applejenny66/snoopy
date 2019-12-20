@@ -20,19 +20,76 @@ def singlewords():
         for x in range(0, shape[0]):
             if (position_array[x, y, 0] != 0):
                 tmp_list = []
-                if (y+1 < shape[1]-1):
+                if (y+1 <= shape[1]-1):
                     if (position_array[x, y+1, 0] != 0):
                         tmp_list.append(position_array[x, y, 0])
                         tmp_list.append(position_array[x, y+1, 0])
                         min_index = min(tmp_list)
                         position_array[x, y, 0] = position_array[x, y+1, 0] = min_index
-                if (x+1 < shape[0]-1):
+                if (x+1 <= shape[0]-1):
                     tmp_list = []
                     if (position_array[x+1, y, 0] != 0):
                         tmp_list.append(position_array[x, y, 0])
                         tmp_list.append(position_array[x+1, y, 0])
                         min_index = min(tmp_list)
                         position_array[x, y, 0] = position_array[x+1, y, 0] = min_index
+    
+    for x in range(0, shape[0]):
+        for y in range(0, shape[1]):
+            if (position_array[x, y, 0] != 0):
+                tmp_list = []
+                if (x+1 <= shape[0]-1):
+                    if (position_array[x+1, y, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x+1, y, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x+1, y, 0] = min_index
+                if (y+1 <= shape[1]-1):
+                    tmp_list = []
+                    if (position_array[x, y+1, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x, y+1, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x, y+1, 0] = min_index
+    
+    for y in range(0, shape[1]):
+        for x in range(0, shape[0]):
+            if (position_array[x, y, 0] != 0):
+                tmp_list = []
+                if (y-1 >= 0):
+                    if (position_array[x, y-1, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x, y-1, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x, y-1, 0] = min_index
+                if (x-1 >= 0):
+                    tmp_list = []
+                    if (position_array[x-1, y, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x-1, y, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x-1, y, 0] = min_index
+    
+
+    for x in range(0, shape[0]):
+        for y in range(0, shape[1]):
+            if (position_array[x, y, 0] != 0):
+                tmp_list = []
+                if (x-1 >= 0):
+                    if (position_array[x-1, y, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x-1, y, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x-1, y, 0] = min_index
+                if (y-1 >= 0):
+                    tmp_list = []
+                    if (position_array[x, y-1, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x, y-1, 0])
+                        min_index = min(tmp_list)
+                        position_array[x, y, 0] = position_array[x, y-1, 0] = min_index
+
+
     total_list = []
     for x in range(0, shape[0]):
         for y in range(0, shape[1]):
@@ -55,7 +112,7 @@ def singlewords():
                 if (position_array[x, y, 0] == total_list[i]):
                     new_img[x, y, 2] = 255
                     total_img[x, y, 0] = total_img[x, y, 1] = total_img[x, y, 2] = int(count)*5
-                    print ("pixel: ", int(count)*5)
+                    #print ("pixel: ", int(count)*5)
                 #else:
                 #    total_img[x, y, 0] = total_img[x, y, 1] = total_img[x, y, 2] = 255
         savename = "./words/" + str(count) + ".png"
