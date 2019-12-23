@@ -210,6 +210,7 @@ def singlewords():
 
 def sortwords():
     sort_list = []
+    name_dict={}
     for filename in os.listdir("./words/"):
         print (filename)
         name = "./words/" + filename
@@ -239,10 +240,27 @@ def sortwords():
         tmp_total.append(min_x)
         tmp_total.append(min_y)
         sort_list.append(tmp_total)        
-    
+        name_dict[name] = tmp_total
         
-    print ("sort list: ", sort_list)
+    sort_name_dict = sorted(name_dict.items(), key=lambda d: d[1])
+    print ("sort name dict: ", sort_name_dict)
+    path = "./sort_painting"
+    try:
+        if os.path.exists('./sort_painting'):
+            shutil.rmtree(path)
+        os.mkdir(path)
+    except:
+        print ("dir exist")
+    
+    for i in range(0, len(sort_name_dict)):
+        print (sort_name_dict[i][0])
+        
 
+
+
+    #print ("1: ", sort_name_dict[1])
+    #print ("sort list: ", sort_list)
+    #print ("dictionary: ", name_dict)
 
         #tmp_sort = min(tmp_list)
     #pass
