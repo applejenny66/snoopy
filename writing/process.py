@@ -1,5 +1,7 @@
 import cv2 
 import numpy as np
+import os
+
 
 def singlewords():
     name = "binary.png"
@@ -205,8 +207,48 @@ def singlewords():
     savename = "total.png"
     cv2.imwrite(savename, total_img)
 
+
+def sortwords():
+    sort_list = []
+    for filename in os.listdir("./words/"):
+        print (filename)
+        name = "./words/" + filename
+        #print (name)
+        tmp_total = []
+        tmp_list = []
+        tmp_x = []
+        tmp_y = []
+        img = cv2.imread(name)
+        shape = img.shape
+        
+        for x in range(0, shape[0]):
+            for y in range(0, shape[1]):
+                if (img[x, y, 2] == 255):
+                    total_pix = int(x) + int(y)
+                    tmp_list.append(total_pix)
+                    tmp_x.append(x)
+                    tmp_y.append(y)
+        #print ("tmp list: ", tmp_list)
+        min_total = min(tmp_list)
+        min_index = tmp_list.index(min_total)
+        min_x = tmp_x[min_index]
+        min_y = tmp_y[min_index]
+        print (min_total, min_x, min_y)
+        
+        tmp_total.append(min_total)
+        tmp_total.append(min_x)
+        tmp_total.append(min_y)
+        sort_list.append(tmp_total)        
+    
+        
+    print ("sort list: ", sort_list)
+
+
+        #tmp_sort = min(tmp_list)
+    #pass
                 
 
 if __name__ == "__main__":
     singlewords()
+    sortwords()
                 
