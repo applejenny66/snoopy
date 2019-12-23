@@ -252,6 +252,8 @@ def sortwords():
     except:
         print ("dir exist")
     
+
+    #### not finished 
     for i in range(0, len(sort_name_dict)):
         print (sort_name_dict[i][0])
         
