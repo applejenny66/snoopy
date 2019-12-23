@@ -14,7 +14,61 @@ def singlewords():
             if (img[x, y, 0] == 0):
                 position_array[x, y, 0] =  count
                 count += 1
+
     
+    #### test
+    for y in range(0, shape[1]):
+        for x in range(0, shape[0]):
+            if (position_array[x, y, 0] != 0):
+                tmp_list = []
+                if (y+1 <= shape[1]-1):
+                    if (position_array[x, y+1, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x, y+1, 0])
+                        if (x+1 <= shape[0]-1):
+                            if (position_array[x+1, y, 0] != 0):
+                                tmp_list.append(position_array[x+1, y, 0])
+                                if (position_array[x+1, y+1, 0] != 0):
+                                    tmp_list.append(position_array[x+1, y+1, 0])
+                                    min_index = min(tmp_list)
+                                    position_array[x, y, 0] = position_array[x, y+1, 0] = \
+                                    position_array[x+1, y, 0] = position_array[x+1, y+1, 0] = min_index
+                                else:
+                                    min_index = min(tmp_list)
+                                    position_array[x, y, 0] = position_array[x, y+1, 0] = \
+                                    position_array[x+1, y, 0] = min_index
+                            else:
+                                min_index = min(tmp_list)
+                                position_array[x, y, 0] = position_array[x, y+1, 0] = min_index
+                        else:
+                            min_index = min(tmp_list)
+                            position_array[x, y, 0] = position_array[x, y+1, 0] = min_index
+                if (x+1 <= shape[0]-1):
+                    tmp_list = []
+                    if (position_array[x+1, y, 0] != 0):
+                        tmp_list.append(position_array[x, y, 0])
+                        tmp_list.append(position_array[x+1, y, 0])
+                        if (y+1 <= shape[1]-1):
+                            if (position_array[x, y+1, 0] != 0):
+                                tmp_list.append(position_array[x, y+1, 0])
+                                if (position_array[x+1, y+1, 0] != 0):
+                                    tmp_list.append(position_array[x+1, y+1, 0])
+                                    min_index = min(tmp_list)
+                                    position_array[x, y, 0] = position_array[x, y+1, 0] = \
+                                    position_array[x+1, y, 0] = position_array[x+1, y+1, 0] = min_index
+                                else:
+                                    min_index = min(tmp_list)
+                                    position_array[x, y, 0] = position_array[x+1, y, 0] = \
+                                    position_array[x, y+1, 0] = min_index
+                            else:
+                                min_index = min(tmp_list)
+                                position_array[x, y, 0] = position_array[x+1, y, 0] = min_index
+                        else:
+                            min_index = min(tmp_list)
+                            position_array[x, y, 0] = position_array[x+1, y, 0] = min_index
+    
+    #### test
+
 
     for y in range(0, shape[1]):
         for x in range(0, shape[0]):
@@ -88,6 +142,36 @@ def singlewords():
                         tmp_list.append(position_array[x, y-1, 0])
                         min_index = min(tmp_list)
                         position_array[x, y, 0] = position_array[x, y-1, 0] = min_index
+    total_list = []
+    count_list = []
+    for y in range(0, shape[1]):
+        for x in range(0, shape[0]):
+            
+            if (position_array[x, y, 0] != 0):
+                tmp_index = position_array[x, y, 0]
+                if (tmp_index not in total_list):
+                    total_list.append(tmp_index)
+                    count_list.append(1)
+                else:
+                    list_index = total_list.index(tmp_index)
+                    count_list[list_index] += 1
+    #print ("total list: ", total_list)
+    #print ("count list: ", count_list)
+    ##### test
+    for i in range(0, len(total_list)):
+        if (count_list[i] <= 1):
+            for x in range(0, shape[0]):
+                for y in range(0, shape[1]):
+                    if (position_array[x, y, 0] == total_list[i]):
+                        tmp_list = []
+                        tmp_list.append(position_array[x+1, y, 0])
+                        tmp_list.append(position_array[x, y+1, 0])
+                        min_index = min(tmp_list)
+                        if (min_index == 0):
+                            tmp_list.remove(0)
+                            min_index = min(tmp_list)
+                        position_array[x, y, 0] = min_index
+    ##### test
 
 
     total_list = []
