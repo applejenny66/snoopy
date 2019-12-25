@@ -157,8 +157,7 @@ def singlewords():
                 else:
                     list_index = total_list.index(tmp_index)
                     count_list[list_index] += 1
-    #print ("total list: ", total_list)
-    #print ("count list: ", count_list)
+
     ##### test
     for i in range(0, len(total_list)):
         if (count_list[i] <= 1):
@@ -212,7 +211,7 @@ def sortwords():
     sort_list = []
     name_dict={}
     for filename in os.listdir("./words/"):
-        print (filename)
+        #print (filename)
         name = "./words/" + filename
         #print (name)
         tmp_total = []
@@ -234,16 +233,39 @@ def sortwords():
         min_index = tmp_list.index(min_total)
         min_x = tmp_x[min_index]
         min_y = tmp_y[min_index]
-        print (min_total, min_x, min_y)
+        #print (min_total, min_x, min_y)
         
         tmp_total.append(min_total)
         tmp_total.append(min_x)
         tmp_total.append(min_y)
         sort_list.append(tmp_total)        
         name_dict[name] = tmp_total
-        
-    sort_name_dict = sorted(name_dict.items(), key=lambda d: d[1])
-    print ("sort name dict: ", sort_name_dict)
+
+    #print ("items: ", name_dict.values()[1][1]) 
+    """
+    average_x = 0
+    average_y = 0
+    for i in range(0, len(name_dict.values())):
+        average_x += name_dict.values()[i][1]
+        average_y += name_dict.values()[i][2]
+    average_x = average_x / len(name_dict.values())
+    average_y = average_y / len(name_dict.values())
+    print ("average x: ", average_x)
+    print ("average y: ", average_y)
+    """
+    #sort_name_dict = sorted(name_dict.items(), key=lambda d: d[1])
+
+    first_row_dict = {}
+    second_row_dict = {}
+    for i in range(0, len(name_dict.items())):
+        if (name_dict.values()[i][1] < int(shape[0]/2)):
+            first_row_dict[name_dict.keys()[i]] = name_dict.items()[i]
+        else:
+            second_row_dict[name_dict.keys()[i]] = name_dict.items()[i]
+    
+    sort_first_row = sorted(first_row_dict.values(), key=lambda d: d[1])
+    sort_second_row = sorted(second_row_dict.values(), key=lambda d: d[1])
+
     path = "./sort_painting"
     try:
         if os.path.exists('./sort_painting'):
@@ -252,23 +274,22 @@ def sortwords():
     except:
         print ("dir exist")
     
+    for i in range(0, len(sort_first_row)):
+        filename = sort_first_row[i][0]
+        img = cv2.imread(filename)
+        savename = "./sort_painting/" + str(i) + ".png"
+        cv2.imwrite(savename, img)
 
-    #### not finished 
-    for i in range(0, len(sort_name_dict)):
-        print (sort_name_dict[i][0])
-        
-
-
-
-    #print ("1: ", sort_name_dict[1])
-    #print ("sort list: ", sort_list)
-    #print ("dictionary: ", name_dict)
-
-        #tmp_sort = min(tmp_list)
-    #pass
+    count = len(sort_first_row)
+    for j in range(0, len(sort_second_row)):
+        filename = sort_second_row[j][0]
+        img = cv2.imread(filename)
+        savename = "./sort_painting/" + str(j+count) + ".png"
+        cv2.imwrite(savename, img)
                 
 
 if __name__ == "__main__":
     singlewords()
     sortwords()
+    print ("finished")
                 
