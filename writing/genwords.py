@@ -21,8 +21,8 @@ def word_table():
     point_r = [(1,1), (3,1), (2,1), (1,2), (1,3)]
     point_e = [(2,1), (2,3), (1,3), (0,2), (1,1), (3,1), (4,2),(4,3)]
     point_h = [(0,1), (4,1), (3,1), (2,2), (3,3), (4,3)]
-    point_t = [(1,1), (1,3), (0, 2), (4,2), (3,3)]
-    #point_t = [(1,1), (1,3), (-1, -1), (0, 2), (4,2), (3,3)]
+    #point_t = [(1,1), (1,3), (0, 2), (4,2), (3,3)]
+    point_t = [(1,1), (1,3), (-1, -1), (0, 2), (4,2), (3,3)]
     point_n = [(1,1), (3,1), (2,1), (1,2), (2,3), (3,3)]
     point_a = [(1,3), (1,2), (2,1), (3,2), (2,3), (1,3), (3,3)]
     point_s = [(0,3), (0,2), (1,1), (2,2), (3,3), (4,2), (4,1)]
@@ -51,10 +51,7 @@ def word_table():
 
 def predict_img(shape):
     # test case: m
-
     img = new_img(shape)
-
-
     #point_m = [(1,0), (3,0), (2,0), (1,1), (2,2), (3,2), (2,2), (1,3), (2,4), (3,4)]
     #for i in range(0, len(point_m)):
     #    x = point_m[i][0]
@@ -63,7 +60,7 @@ def predict_img(shape):
     savename = "./single_word/" + "m.png"
     cv2.imwrite(savename, img)
 
-def main():
+def all_stroke():
     words1 = "clouds and"
     words2 = "thunderstorms"
     words_list = [words1, words2]
@@ -71,14 +68,6 @@ def main():
     single_word_dict = word_table()
     len_words1 = len(words1)
     len_words2 = len(words2)
-    max_len = max(len_words1, len_words2)
-    #print ("max_len: ", max_len)
-    #row = 2
-    #row_size = int(5 * row)
-    #column_size = int(5 * max_len)
-    #shape = (row_size, column_size, 1)
-    #print ("shape: ", shape)
-    #img = np.zeros((shape))
     total_stroke = []
     ########### bug
     for k in range(0, len(words_list)):
@@ -93,8 +82,12 @@ def main():
                     for j in range(0, len(stroke)):
                         tmp_point = []
                         stroke[j] = list(stroke[j])
-                        tmp_x = int(stroke[j][0]) + int(k) * 7
-                        tmp_y = int(stroke[j][1]) + int(i) * 5
+                        if (stroke[j][0] == -1):
+                            tmp_x = -1
+                            tmp_y = -1
+                        else:
+                            tmp_x = int(stroke[j][0]) + int(k) * 7
+                            tmp_y = int(stroke[j][1]) + int(i) * 5
                         tmp_point.append(tmp_x)
                         tmp_point.append(tmp_y)
                         tmp_list.append(tmp_point)
@@ -119,13 +112,18 @@ def main():
         for point in range(0, len(total_stroke[stroke])):
             #print (total_stroke[stroke][point])
             point_x, point_y = total_stroke[stroke][point]
-            img[point_x, point_y, 0] = img[point_x, point_y, 1] = img[point_x, point_y, 2] = 0
+            if ((point_x == -1) or (point_y == -1)):
+                pass
+            else:
+                img[point_x, point_y, 0] = img[point_x, point_y, 1] = img[point_x, point_y, 2] = 0
     savename = "./predict_point.png"
     cv2.imwrite(savename, img)
+    return (total_stroke)
 
 
 if __name__ == "__main__":
-    main()
+    total_stroke = all_stroke()
+    print ("total stroke: ", total_stroke)
 
 
 
