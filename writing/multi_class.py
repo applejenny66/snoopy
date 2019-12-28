@@ -85,6 +85,8 @@ def main():
     total_stroke = all_stroke()
     new_painting.stroke(total_stroke)
     new_painting.set_home(0.9, 0.1, 0.1)
+    #new_painting.mapping(map_table)
+    new_painting.start_painting()
     #home_point = set_home(0.9, 0.1, 0.1) # setting home first
     
     print ("total stroke: ", total_stroke)
