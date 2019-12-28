@@ -66,8 +66,8 @@ def all_stroke():
     words_list = [words1, words2]
     #print ("words list: ", words_list)
     single_word_dict = word_table()
-    len_words1 = len(words1)
-    len_words2 = len(words2)
+    #len_words1 = len(words1)
+    #len_words2 = len(words2)
     total_stroke = []
     ########### bug
     for k in range(0, len(words_list)):
