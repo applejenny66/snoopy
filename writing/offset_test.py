@@ -11,6 +11,7 @@ from genwords import new_img, word_table, all_stroke
 from offset import offset
 
 class painting():
+<<<<<<< HEAD
     def __init__(self, offset_table):
         self.original_stroke = []
         self.total_stroke = []
@@ -45,6 +46,19 @@ class painting():
         self.ps.position.z = 0.4
         self.group.set_pose_target(self.ps)
         self.group.go()
+=======
+    def __init__(self):
+        self.total_stroke = []
+        self.group= moveit_commander.MoveGroupCommander("arm")
+
+        self.ps = Pose()
+        self.ps.position.x = 0.9 
+        self.ps.position.y = 0.1
+        self.ps.position.z = 0.1 
+        self.ps.orientation = Quaternion(*quaternion_from_euler(1.57, 0.000, 0.00, 'syxz'))
+        self.z_up = 0.3
+        self.z_down = 0.2
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
 
     def mapping(self, map_table):
         self.map_table = map_table
@@ -78,6 +92,7 @@ class painting():
         print ("down")
 
     def start_painting(self):
+<<<<<<< HEAD
         x_list = [0.7,  0.72,  0.74, 0.76,  0.78, 0.8,   0.82, 0.84, 0.86, 0.88, 0.9]
         y_list = [-0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0,    0.05, 0.1,  0.15, 0.2]
         len_words = len(self.total_stroke)
@@ -86,10 +101,16 @@ class painting():
             print ("i: ", i)
             total_point = self.total_stroke[i]
             origin_point = self.original_stroke[i]
+=======
+        len_words = len(self.total_stroke)
+        for i in range(0, len_words):
+            total_point = self.total_stroke[i]
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
             len_total_point = len(total_point)
             for j in range(0, len_total_point):
                 tmp_x = total_point[j][0]
                 tmp_y = total_point[j][1]
+<<<<<<< HEAD
                 ori_x = origin_point[j][0]
                 ori_y = origin_point[j][1]
                 #total_len = len(total_stroke)
@@ -113,15 +134,22 @@ class painting():
                         self.z_down = 0.25 + round(self.offset_table[min_x_index, min_y_index][0], 3)    
                 print ("x, y, z: ", tmp_x, tmp_y, self.z_down)
 
+=======
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
                 if (j == 0):
                     self.go_up()
                     self.go_point(tmp_x, tmp_y, self.z_up)
                     self.go_down()
+<<<<<<< HEAD
                     self.ps.position.x = tmp_x
                     self.ps.position.y = tmp_y
                 else:
                     if ((ori_x == -1) and (ori_y == -1)):
                         #self.go_point(self.ps.position.x, self.ps.position.y, self.z_up)
+=======
+                else:
+                    if ((tmp_x == -1) or (tmp_y == -1)):
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
                         self.go_up()
                         if (j+1 > len_total_point-1):
                             pass
@@ -131,8 +159,11 @@ class painting():
                             self.go_point(next_x, next_y, self.z_up)
                     else:
                         self.go_point(tmp_x, tmp_y, self.z_down)
+<<<<<<< HEAD
                         self.ps.position.x = tmp_x
                         self.ps.position.y = tmp_y
+=======
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
             self.go_up()
 
 def test_go_point(x, y, z):
@@ -175,6 +206,7 @@ def offset_test(offset_table):
 
 def main():
     offset_table = offset()
+<<<<<<< HEAD
     test_go_point(0.7, 0.2, 0.4)
     #offset_test(offset_table)
 
@@ -212,6 +244,19 @@ def main():
     new_painting.start_painting()
 
 
+=======
+    offset_test(offset_table)
+
+    #new_painting = painting()
+    
+    #total_stroke = all_stroke()
+    #new_painting.stroke(total_stroke)
+    #new_painting.set_home(0.9, 0.1, 0.1)
+    
+    #new_painting.mapping(map_table)
+    
+    #new_painting.start_painting()
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
     #home_point = set_home(0.9, 0.1, 0.1) # setting home first
     
     #print ("total stroke: ", total_stroke)
@@ -220,10 +265,15 @@ def main():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     test_go_point(0.7, 0.3, 0.4)
     main()
     #test_go_point(0.7, 0.2, 0.4)
     #test_go_point(0.7, 0.2, 0.25)
+=======
+    main()
+    
+>>>>>>> 74ea57649d57e948db62db5c2e15cbfa4132bf45
     #total_stroke = all_stroke()
     #print ("total stroke: ", total_stroke)
     
