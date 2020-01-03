@@ -2,9 +2,14 @@ import cv2
 import numpy as np
 import os
 import csv
+import math
 
 #clouds and 10
 # thunderstorms 13
+sqrt = math.sqrt
+pi = math.pi
+cos = math.cos
+sin = math.sin
 
 def new_img(shape):
     #shape = (5,5,1)
@@ -15,9 +20,86 @@ def new_img(shape):
     return (img)
 
 def stroke_table():
+    #c
+    stroke_c_right = []
+    for i in range(-20, 5):
+        tmp_list = []
+        tmp_angle = i * pi / 16
+        tmp_x = round(2 + cos(tmp_angle), 3)
+        tmp_y = round(1 + sin(tmp_angle), 3)
+        tmp_list.append(tmp_x)
+        tmp_list.append(tmp_y)
+        stroke_c_right.append(tmp_list)
+        #print (i, ": ", tmp_list)
+    #print ("test: ", cos(pi), sin(pi))
+    print ("stroke c: ", stroke_c_right)
+
+    # c <-
+    stroke_c_left = []
+    for i in range(20, -5, -1):
+        tmp_list = []
+        tmp_angle = i * pi / 16
+        tmp_x = round(2 + cos(tmp_angle), 3)
+        tmp_y = round(1 + sin(tmp_angle), 3)
+        tmp_list.append(tmp_x)
+        tmp_list.append(tmp_y)
+        stroke_c_left.append(tmp_list)
+        print (i, ": ", tmp_list)
+
+    # r
+    stroke_r = []
+    for i in range(24, 11, -1):
+        tmp_list = []
+        tmp_angle = i * pi / 16
+        tmp_x = round(2 + cos(tmp_angle), 3)
+        tmp_y = round(1 + sin(tmp_angle), 3)
+        tmp_list.append(tmp_x)
+        tmp_list.append(tmp_y)
+        stroke_r.append(tmp_list)
     
+    # half-circle (open below)
+    stroke_half_cirle_below = []
+    for i in range(24, 7, -1):
+        tmp_list = []
+        tmp_angle = i * pi / 16
+        tmp_x = round(2 + cos(tmp_angle), 3)
+        tmp_y = round(1 + sin(tmp_angle), 3)
+        tmp_list.append(tmp_x)
+        tmp_list.append(tmp_y)
+        stroke_half_cirle_below.append(tmp_list)
+        stroke_half_cirle_below.append([4, 2])
+
+    # o
+    stroke_o = []
+    for i in range(24, -9, -1):
+        tmp_list = []
+        tmp_angle = i * pi / 16
+        tmp_x = round(2 + cos(tmp_angle), 3)
+        tmp_y = round(1 + sin(tmp_angle), 3)
+        tmp_list.append(tmp_x)
+        tmp_list.append(tmp_y)
+        stroke_o.append(tmp_list)
+
+    # .
+    stoke_dot = [[1,1]]
+
+    # -
+    stroke_line_top = [[2, 0], [2, 2]]
+    stroke_line_middle = [[3, 0], [3, 2]]
+    stroke_line_below = [[4, 0], [4, 2]]
+
+    # l
+    stroke_l_a_left = [[0, 0], [4, 0]]
+    stroke_l_a_middle = [[0, 1], [4, 1]]
+    stroke_l_a_right = [[0, 2], [4, 2]]
+    stroke_l_b_left = [[2, 0], [6, 0]]
+    stroke_l_b_right = [[2, 2], [6, 2]]
+    stroke_l_short_left = [[2, 0], [4, 0]]
+    stroke_l_short_middle = [[2, 1], [4, 1]]
+    stroke_l_short_right = [[2, 2], [4, 2]]
     
-    pass
+    # k
+    stroke_k = [[2,2], [3, 0], [4, 2]]
 
 def word_table():
     # (-1, -1) -> pen up
@@ -127,8 +209,8 @@ def all_stroke():
 
 
 if __name__ == "__main__":
-    total_stroke = all_stroke()
-    print ("total stroke: ", total_stroke)
-
+    #total_stroke = all_stroke()
+    #print ("total stroke: ", total_stroke)
+    stroke_table()
 
 
