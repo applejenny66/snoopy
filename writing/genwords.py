@@ -14,6 +14,11 @@ def new_img(shape):
             img[x, y, 0] = img[x, y, 1] = img[x, y, 2] = 255
     return (img)
 
+def stroke_table():
+    
+    
+    pass
+
 def word_table():
     # (-1, -1) -> pen up
     single_word_dict = {}

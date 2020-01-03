@@ -186,10 +186,6 @@ def main():
     print ("ori total stroke: ", new_painting.original_stroke)
     new_stroke = all_stroke()
     #print ("total stroke: ", total_stroke)
-
-
-    
-    #print ("len: ", len(total_stroke))
     
     total_len = len(new_stroke)
     for i in range(0, total_len):
