@@ -7,7 +7,7 @@ import moveit_commander
 from geometry_msgs.msg import Pose, Quaternion
 from tf.transformations import quaternion_from_euler
 
-from genwords import new_img, word_table, all_stroke
+from genwords import new_img, word_table, all_stroke, stroke_table, word_stroke
 from offset import offset
 
 class painting():
@@ -175,6 +175,8 @@ def offset_test(offset_table):
 
 def main():
     offset_table = offset()
+    stroke_dict = stroke_table()
+    total_word_stroke_dict = word_stroke(stroke_dict)
     test_go_point(0.7, 0.2, 0.4)
     #offset_test(offset_table)
 
