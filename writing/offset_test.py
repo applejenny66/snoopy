@@ -110,7 +110,7 @@ class painting():
                                 min_y_dev = abs(tmp_stroke_y - y_list[m])
                                 min_y_index = m
                             #z_index = min_x_index * 11 + min_y_index + 1
-                        self.z_down = 0.25 + round(self.offset_table[min_x_index, min_y_index][0], 3)    
+                        self.z_down = 0.25 - round(self.offset_table[min_x_index, min_y_index][0], 3)    
                 print ("x, y, z: ", tmp_x, tmp_y, self.z_down)
 
                 if (j == 0):
@@ -177,27 +177,51 @@ def main():
     offset_table = offset()
     stroke_dict = stroke_table()
     total_word_stroke_dict = word_stroke(stroke_dict)
-    test_go_point(0.7, 0.2, 0.4)
+    #test_go_point(0.7, 0.2, 0.4)
     #offset_test(offset_table)
 
     new_painting = painting(offset_table)
     new_painting.set_home(0.7, 0.2, 0.4)
 
-    total_stroke = all_stroke()
+    total_stroke, shape = all_stroke()
+    x_ratio = 0.2 / shape[0]
+    y_ratio = 0.5 / shape[1]
+    min_ratio = round(min(x_ratio, y_ratio), 3)
     new_painting.original_stroke = total_stroke
     print ("ori total stroke: ", new_painting.original_stroke)
     new_stroke = all_stroke()
     #print ("total stroke: ", total_stroke)
     
     total_len = len(new_stroke)
+    """
     for i in range(0, total_len):
         for j in range(0, len(total_stroke[i])):
             tmp_point = new_stroke[i][j]
             tmp_point[0] = round((float(tmp_point[0]) / 100) + 0.7, 3)
             tmp_point[1] = round(((float(tmp_point[1]) / 100) / 1.32 - 0.3), 3)
             new_stroke[i][j] = (tmp_point[0], tmp_point[1])
+    """
+    print ("total len: ", total_len)
+    print ("len of new stroke[0]: ", len(new_stroke[0]))
+    print ("len of new stroke[0][0]: ", len(new_stroke[0][0]))
+    print ("new stroke: ", new_stroke)
+    for i in range(0, total_len):
+        #print ("total stroke i: ", new_stroke[i])
+        for j in range(0, len(new_stroke[i])):
+            #print ("tmp : ", new_stroke[i][j])
+            tmp_word_stroke = new_stroke[i][j]
+            #print ("tmp word stroke: ", tmp_word_stroke)
+            for k in range(0, len(tmp_word_stroke)):
+                tmp_point = tmp_word_stroke[k]
+                #print ("type: ", type(tmp_point[0]))
+                #print ("tmp point 0: ", tmp_point[0])
+                tmp_point[0] = round(float(tmp_point[0]) * min_ratio + 0.7, 3)
+                tmp_point[1] = round(float(tmp_point[1]) * min_ratio - 0.3, 3)
+                #print ("new point: ", tmp_point)
+                new_stroke[i][j][k] = (tmp_point[0], tmp_point[1])
     #print ("new stroke: ", new_stroke)
         
+
     #for i in range(0, len(t))
     new_painting.stroke(new_stroke)
     #print ("ori total stroke: ", new_painting.original_stroke)
@@ -207,7 +231,7 @@ def main():
     #new_painting.mapping(map_table)
     
 
-    new_painting.start_painting()
+    #new_painting.start_painting()
 
 
     #home_point = set_home(0.9, 0.1, 0.1) # setting home first
@@ -218,7 +242,7 @@ def main():
 
 
 if __name__ == "__main__":
-    test_go_point(0.7, 0.3, 0.4)
+    #test_go_point(0.7, 0.3, 0.4)
     main()
     #test_go_point(0.7, 0.2, 0.4)
     #test_go_point(0.7, 0.2, 0.25)

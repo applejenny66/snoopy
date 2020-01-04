@@ -270,7 +270,7 @@ def stroke_table():
     return (stroke_dict)
 
 def word_stroke(stroke_dict):
-    print ("key: ", stroke_dict.keys())
+    #print ("key: ", stroke_dict.keys())
     # ('key: ', ['l_b_left', 'c_left', 'l_short_middle', 'part_a', 'line_below', 
     # 'line_middle', 'half_circle_below', 'l_a_left', 'v', 'x', 'l_short_right', 
     # 'line_top', 'f', 'l_b_right', 'k', 'j', 'o', 's', 'r', 'u', 't', 'j_like',
@@ -331,7 +331,7 @@ def word_stroke(stroke_dict):
     total_word_stroke_dict['y'] = word_y
     total_word_stroke_dict['z'] = word_z
 
-    print ("total word stroke dict: ", total_word_stroke_dict)
+    #print ("total word stroke dict: ", total_word_stroke_dict)
     return (total_word_stroke_dict)
 
 def word_table():
@@ -385,7 +385,10 @@ def all_stroke():
     words2 = "thunderstorms"
     words_list = [words1, words2]
     #print ("words list: ", words_list)
-    single_word_dict = word_table()
+    stroke_dict = stroke_table()
+    total_word_stroke_dict = word_stroke(stroke_dict)
+    single_word_dict = total_word_stroke_dict
+    #single_word_dict = word_table()
     #len_words1 = len(words1)
     #len_words2 = len(words2)
     total_stroke = []
@@ -406,8 +409,8 @@ def all_stroke():
                             tmp_x = -1
                             tmp_y = -1
                         else:
-                            tmp_x = int(stroke[j][0]) + int(k) * 7
-                            tmp_y = int(stroke[j][1]) + int(i) * 5
+                            tmp_x = round((stroke[j][0]) + int(k) * 2, 3)
+                            tmp_y = round((stroke[j][1]) + int(i) * 8, 3)
                         tmp_point.append(tmp_x)
                         tmp_point.append(tmp_y)
                         tmp_list.append(tmp_point)
@@ -426,7 +429,8 @@ def all_stroke():
             if (tmp_y > max_y):
                 max_y = tmp_y
 
-    shape = (max_x+2, max_y+2, 3)
+    shape = (int(max_x)+2, int(max_y)+2, 3)
+    print ("shape: ", shape)
     img = new_img(shape)
     for stroke in range(0, len(total_stroke)):
         for point in range(0, len(total_stroke[stroke])):
@@ -438,7 +442,7 @@ def all_stroke():
                 img[point_x, point_y, 0] = img[point_x, point_y, 1] = img[point_x, point_y, 2] = 0
     savename = "./predict_point.png"
     cv2.imwrite(savename, img)
-    return (total_stroke)
+    return (total_stroke, shape)
 
 
 if __name__ == "__main__":
@@ -447,4 +451,6 @@ if __name__ == "__main__":
     
     stroke_dict = stroke_table()
     total_word_stroke_dict = word_stroke(stroke_dict)
+    total_stroke, shape = all_stroke()
+    print ("total stroke: ", total_stroke)
 
